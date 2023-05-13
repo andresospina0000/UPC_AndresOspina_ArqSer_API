@@ -1,0 +1,11 @@
+{
+  "name": "upc_andresospina_arqser_api",
+  "version": "1.0.0",
+  "description": "API para el modulo de Arquitectura de Servidores",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Andres Felipe Ospina Lenis",
+  "license": "ISC"
+}
