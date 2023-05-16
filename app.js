@@ -63,11 +63,26 @@ app.get('/api/employees/oldest', (req, res) => {
     res.send(oldest);
 });
 
-app.get('/api/employees:?user', (req, res) => {
-    console.log('user?');
+app.get('/api/employees/:NAME', (req, res) => {
+    console.log('NAME: ', req.params.NAME);
     const employeesCopy = Array.from(employees)
-    console.log(employeesCopy);
-    res.send(employeesCopy);
+
+    const employee = employeesCopy.find(employee => {
+        return employee.name.toString().toLowerCase() == req.params.NAME.toLowerCase()
+    });
+
+    if (!employee) {
+        res.status(404).send({ "code": "not_found" });
+        return;
+    }
+
+    res.send(employee);
+});
+
+app.post('/api/employees', (req, res) => {
+    const employee = req.body;
+    console.log('employee: ', employee);
+    res.status(201).send(employee);
 });
 
 app.listen(8000,
