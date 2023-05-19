@@ -1,3 +1,5 @@
+var Validator = require('jsonschema').Validator;
+var v = new Validator();
 const employees = require('./employees');
 const express = require('express');
 const app = express();
@@ -80,9 +82,68 @@ app.get('/api/employees/:NAME', (req, res) => {
 });
 
 app.post('/api/employees', (req, res) => {
-    const employee = req.body;
-    console.log('employee: ', employee);
-    res.status(201).send(employee);
+    const newEmployee = req.body;
+
+    //Creamos el schema de acuerdo a las propiedades del objeto employee. Todas las propiedades son requeridas.
+    var employeeSchema = {
+        "id": "/EmployeeSchema",
+        "type": "object",
+        "properties": {
+            "name": { "type": "string" },
+            "age": { "type": "integer", "minimum": 0 },
+            "phone": {
+                "type": "object",
+                "properties": {
+                    "personal": { "type": "string" },
+                    "work": { "type": "string" },
+                    "ext": { "type": "string" }
+                },
+                "required": ["personal", "work", "ext"]
+            },
+            "privileges": { "type": "string" },
+            "favorites": {
+                "type": "object",
+                "properties": {
+                    "artist": { "type": "string" },
+                    "food": { "type": "string" },
+                },
+                "required": ["artist", "food"]
+            },
+            "finished": {
+                "type": "array",
+                "items": { "type": "integer", "minimum": 1 }
+            },
+            "badges": {
+                "type": "array",
+                "items": { "type": "string" }
+            },
+            "points": {
+                "type": "array",
+                "items": {
+                    "type": "object",
+                    "properties": {
+                        "points": { "type": "integer", "minimum": 1 },
+                        "bonus": { "type": "integer", "minimum": 1 }
+                    },
+                    required: ["points", "bonus"]
+                }
+            }
+        },
+        "required": ["name", "age", "phone", "privileges", "favorites", "finished", "badges", "points"]
+    };
+
+    v.addSchema(employeeSchema, '/EmployeeSchema');
+    const schemaValidation = v.validate(newEmployee, employeeSchema);
+    const validSdchema = schemaValidation.valid;
+
+    if (!validSdchema) {
+        res.status(400).send({ "code": "bad_request", "message": schemaValidation.errors });
+        return;
+    }
+
+    employees.push(newEmployee);
+
+    res.status(201).send(newEmployee);
 });
 
 app.listen(8000,

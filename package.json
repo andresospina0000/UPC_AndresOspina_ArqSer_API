@@ -10,7 +10,8 @@
   "author": "Andres Felipe Ospina Lenis",
   "license": "ISC",
   "dependencies": {
-    "express": "^4.18.2"
+    "express": "^4.18.2",
+    "jsonschema": "^1.4.1"
   },
   "devDependencies": {
     "nodemon": "^2.0.22"
