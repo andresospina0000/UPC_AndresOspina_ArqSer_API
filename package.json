@@ -5,7 +5,8 @@
   "main": "app.js",
   "scripts": {
     "start": "node app.js",
-    "dev": "nodemon app.js"
+    "dev": "nodemon app.js",
+    "tests" : "node tests/employees.tests.js"
   },
   "author": "Andres Felipe Ospina Lenis",
   "license": "ISC",
@@ -15,6 +16,7 @@
     "jsonschema": "^1.4.1"
   },
   "devDependencies": {
-    "nodemon": "^2.0.22"
+    "nodemon": "^2.0.22",
+    "supertest": "^6.3.3"
   }
 }
