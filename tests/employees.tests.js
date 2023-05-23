@@ -9,7 +9,7 @@ request(testServer)
     .expect(200)
     .end(function (err, res) {
         if (err) throw err;
-        expect(res.body.length).toBe(3);
+        assert.equal(res.body.length, 6);
     });
 
 request(testServer)
