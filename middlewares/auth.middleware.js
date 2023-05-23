@@ -16,7 +16,12 @@ module.exports.isAuthenticated = (req, res, next) => {
                             res.status(404).json({ message: 'Unauthorized: User not found!' })
                         }
                         else {
-                            next();
+                            if (!user.active) {
+                                res.status(401).json({ message: 'Unauthorized: User not active!' })
+                            }
+                            else {
+                                next();
+                            }
                         }
                     })
                     .catch(next)

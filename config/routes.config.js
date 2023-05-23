@@ -20,6 +20,7 @@ router.delete('/posts/:id', authMiddleware.isAuthenticated, postsController.dele
 // CRUD users
 router.post('/users', usersController.create);
 router.post('/login', usersController.login);
+router.get('/users/:id/validate', usersController.validate);
 
 
 module.exports = router;

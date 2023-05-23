@@ -10,7 +10,11 @@ module.exports.create = (req, res, next) => {
             bio: req.body.bio,
         }
     )
-        .then(user => res.status(201).json(user))
+        .then(user => res.status(201).json(
+            {
+                message: 'User created successfully, please open the Activate User Url to activate your account!',
+                activateUserUrl: `http://localhost:8000/api/users/${user._id}/validate`
+            }))
         .catch(next)
 };
 
@@ -44,3 +48,19 @@ module.exports.login = (req, res, next) => {
         })
         .catch(next)
 };
+
+module.exports.validate = (req, res, next) => {
+    User.findById(req.params.id)
+        .then(user => {
+            if (!user) {
+                res.status(404).json({ message: 'User not found!' })
+            }
+            else {
+                user.active = true;
+                User.findByIdAndUpdate(req.params.id, user)
+                    .then(() => res.status(200).json({ message: 'User activated successfully!' }))
+                    .catch(next)
+            }
+        })
+        .catch(next)
+}
