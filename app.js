@@ -15,6 +15,10 @@ app.use(morgan('dev'));
 const routes = require('./config/routes.config');
 app.use('/api', routes);
 
+app.use((req, res, next) => {
+    res.status(404).json({ message: 'Route not found!' });
+});
+
 //Error handling
 app.use((err, req, res, next) => {
     console.error(err);
