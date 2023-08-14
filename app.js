@@ -31,9 +31,14 @@ app.use((err, req, res, next) => {
 
 const port = process.env.PORT || 8000;
 
-app.listen(port,
-    () => {
-        console.info(`Server running on port ${port}`)
-        mongoServer.connectDB();
-    }
-);
+if (process.env.NODE_ENV !== 'test') {
+    app.listen(port,
+        async () => {
+            await mongoServer.connectDB();
+        }
+    );
+    console.log(`Server running on port ${port}`);
+}
+else {
+    module.exports = app;
+}
