@@ -62,22 +62,21 @@ module.exports.oldest = (req, res, next) => {
     res.send(oldest);
 }
 
-// module.exports.getByName = (req, res, next) => {
-//     console.log('NAME: ', req.params.NAME);
-//     const employeesCopy = Array.from(employees)
+module.exports.getByName = (req, res, next) => {
 
-//     const employee = employeesCopy.find(employee => {
-//         return employee.name.toString().toLowerCase() == req.params.NAME.toLowerCase()
-//     });
+    const employeesCopy = Array.from(employees)
+    const employee = employeesCopy.find(employee => {
+        return employee.name.toString().toLowerCase() == req.params.NAME.toLowerCase()
+    });
 
-//     if (!employee) {
-//         res.status(404).send({ "code": "not_found" });
-//         return;
-//     }
+    if (!employee) {
+        res.status(404).send({ "code": "not_found" });
+        return;
+    }
 
-//     res.send(employee);
-//     return;
-// }
+    res.send(employee);
+    return;
+}
 
 module.exports.create = (req, res, next) => {
 
